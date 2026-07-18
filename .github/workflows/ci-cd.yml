@@ -447,3 +447,4 @@ jobs:
       run: |
         echo "Build performance metrics would be collected here"
         # Future: Collect build time metrics, binary size, etc.
+
