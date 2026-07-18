@@ -26,12 +26,20 @@
 #include <mach/mach_safety.h>
 #include <kern/printf.h>
 #include <kern/lock.h>
+#include <kern/mach_clock.h>
 #include <mach/time_value.h>
 #include <mach/machine.h>
 #include <string.h>
 
-/* Forward declare missing functions for compilation test */
-extern void clock_get_uptime(time_value_t *);
+static void
+security_get_uptime(time_value_t *tv)
+{
+    time_value64_t tv64;
+    if (!tv)
+        return;
+    record_time_stamp(&tv64);
+    TIME_VALUE64_TO_TIME_VALUE(&tv64, tv);
+}
 
 /* Global security monitoring state */
 boolean_t security_monitoring_enabled = FALSE;
@@ -95,7 +103,7 @@ security_event_log(security_event_t event, uintptr_t addr, const char *context)
     }
     
     /* Get current time */
-    clock_get_uptime(&current_time);
+    security_get_uptime(&current_time);
     
     /* Update statistics */
     simple_lock(&security_stats_lock);
@@ -322,7 +330,7 @@ stack_canary_init(void)
     time_value_t current_time;
     
     /* Generate pseudo-random canary based on current time */
-    clock_get_uptime(&current_time);
+    security_get_uptime(&current_time);
     stack_canary_value = (uint32_t)(current_time.seconds ^ current_time.microseconds);
     
     /* Mix in some additional entropy if available */

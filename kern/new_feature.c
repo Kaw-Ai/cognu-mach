@@ -32,9 +32,10 @@ struct feature_stats global_feature_stats;
 static uint64_t
 feature_get_timestamp_us(void)
 {
-    struct time_value tv;
-    clock_get_system_microtime(&tv.seconds, &tv.microseconds);
-    return (uint64_t)tv.seconds * 1000000ULL + tv.microseconds;
+    time_value64_t tv;
+    record_time_stamp(&tv);
+    return (uint64_t)tv.seconds * 1000000ULL +
+           (uint64_t)(tv.nanoseconds / 1000ULL);
 }
 
 /*

@@ -184,6 +184,9 @@
 /* 686 */
 /* #undef CONFIG_M686 */
 
+/* Enable LTTng-style kernel tracing */
+/* #undef CONFIG_MACH_TRACING */
+
 /* option myson803: Linux device driver for Ethernet controller Myson MTD803
    Ethernet adapter series; on ix86-at enabled by default */
 /* #undef CONFIG_MYSON803 */
@@ -453,6 +456,9 @@
 
 /* MACH_DEBUG */
 #define MACH_DEBUG 1
+
+/* MACH_DTRACE */
+/* #undef MACH_DTRACE */
 
 /* MACH_FIXPRI */
 #define MACH_FIXPRI 1
