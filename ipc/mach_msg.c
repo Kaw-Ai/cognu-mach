@@ -110,7 +110,7 @@ mach_msg_send(
 	mach_msg_return_t mr;
 
 #ifdef CONFIG_MACH_TRACING
-	TRACE_IPC(msg_send);
+	DTRACE_IPC_SEND(msg ? msg->msgh_remote_port : MACH_PORT_NULL, send_size);
 #endif
 
 	mr = ipc_kmsg_get(msg, send_size, &kmsg);
@@ -201,7 +201,7 @@ mach_msg_receive(
 	mach_msg_return_t mr;
 
 #ifdef CONFIG_MACH_TRACING
-	TRACE_IPC(msg_receive);
+	DTRACE_IPC_RECEIVE(rcv_name, rcv_size);
 #endif
 
 	mr = ipc_mqueue_copyin(space, rcv_name, &mqueue, &object);
